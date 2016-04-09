@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <title>Heatmaps</title>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=visualization"></script>
+    <script src="js/angular-bootstrap.js"></script>
+    <script src="js/ng-map.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.3.0/nouislider.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.3.0/nouislider.min.js"></script>
+    <script src="js/wNumb.js"></script>
+    <script>
+        var app = angular.module('myapp', ['ngMap', 'ngResource']);
+        angular.module('myapp').factory('Citation', function ($resource) {
+            return $resource('/citation');
+        });
+        var citationData = [];
+
+    </script>
+</head>
+
+<body>
+<style>
+    div[ng-controller=LayerHeatmapCtrl] {
+        position: relative;
+    }
+</style>
+<div ng-controller="LayerHeatmapCtrl as vm">
+    <ng-map zoom="13" center="39.290385, -76.612189">
+        <heatmap-layer id="heatmap" data="citationData"></heatmap>
+    </ng-map>
+    <div>Test message</div>
+    <div id="slider-date" class="noUi-target noUi-ltr noUi-horizontal noUi-background"></div>
+    <span id="event-time"></span>
+
+    <div style="width: 100%; overflow: hidden;">
+        <div style="width: 600px; float: left;"> Left </div>
+        <div style="margin-left: 620px;"> Right </div>
+    </div>
+
+</div>
+<script src="js/heat-map-controller.js"></script>
+
+</body>
+</html>
