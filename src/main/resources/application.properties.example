@@ -1,0 +1,21 @@
+spring.h2.console.enabled=false
+#spring.datasource.url=jdbc:h2:mem:BAL_PARKING;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+#spring.datasource.driverClassName=org.h2.Driver
+#spring.datasource.username=username
+#spring.datasource.password=password
+#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+spring.thymeleaf.mode=LEGACYHTML5
+spring.thymeleaf.cache=false
+
+
+
+spring.datasource.url= jdbc:mysql://somewheres.com:3306/parkingapp
+spring.datasource.username=username
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=validate
+
+parking.heatmap.key.google.api.key=someapikey
