@@ -20,6 +20,7 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -41,13 +42,18 @@ public class BatchConfiguration {
     @Autowired
     public EntityManagerFactory entityManagerFactory;
 
+    @Value("${soda.query.limit:0}")
+    public Integer queryLimit;
+
     @Bean
     public ListItemReader<SodaCitation> reader() {
         final String method = "reader()";
+
         Soda2Consumer consumer = Soda2Consumer.newConsumer("https://data.baltimorecity.gov/");
+        log.info("{}: Loaded query limit property: {}", method, queryLimit);
         SoqlQuery query = new SoqlQueryBuilder()
                 .setWhereClause("violdate >'2016-03-01T00:00:00' AND violdate < '2016-04-01T00:00:00'")
-                .setLimit(10)
+                .setLimit(queryLimit)
                 .build();
 
         List<SodaCitation> sodaCitationJsonsObjectList = sodaCall(method, consumer, query);
