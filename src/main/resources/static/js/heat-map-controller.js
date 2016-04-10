@@ -42,8 +42,9 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
     }
 
     vm.loadRestEndPoint = function (time) {
-        console.log("Loading data from end point with time: " + time);
-        var entries = Citation.query({timestamp: time},function () {
+        var carsArray = jsonToArray($scope.selection.cars)
+        var ticketArray = jsonToArray($scope.selection.violations)
+        var entries = Citation.query({timestamp: time, make: carsArray, ticket: ticketArray}, function () {
             citationData.length = 0;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
@@ -58,14 +59,30 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
         });
     }
 
-    $scope.updateSelection = function($event, id) {
-        var checkbox = $event.target;
-        console.log("Clicked: " + id);
-        console.log($scope.selection)
+    $scope.clear = function () {
+        $scope.selection.violations = [];
+        $scope.selection.cars = [];
+        $scope.updateSelection()
     };
 
+    $scope.updateSelection = function () {
+        var time = document.getElementById('slider-date').noUiSlider.get();
+        vm.loadRestEndPoint(time);
+    };
 
-
+    function jsonToArray(json) {
+        var array;
+        if (json) {
+            array = Object.keys(json).map(function (k) {
+                if (json[k] == true) {
+                    return k;
+                } else {
+                    delete json[k];
+                }
+            });
+        }
+        return array;
+    }
 
     // TODO: Submit pull request to cdnjs
     // TODO: Refactor to use: https://github.com/vasyabigi/angular-nouislider
@@ -108,7 +125,6 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
 
     dateSlider.noUiSlider.on('change', function (values, handle) {
         var date = new Date(+values[handle]);
-        console.log("Timestamp: " + date.getTime())
         vm.loadRestEndPoint(date.getTime())
     });
 
