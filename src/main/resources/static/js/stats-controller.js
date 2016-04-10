@@ -1,4 +1,4 @@
-angular.module('myapp').factory('StatsResource', function ($resource) {
+app.factory('StatsResource', function ($resource) {
     return $resource('/citation/car/manufacturer/count');
 });
 app.controller('StatsCtrl', function (NgMap, $resource, $scope, StatsResource) {

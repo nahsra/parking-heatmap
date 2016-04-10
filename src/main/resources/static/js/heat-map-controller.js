@@ -1,3 +1,6 @@
+app.factory('Citation', function ($resource) {
+    return $resource('/citation');
+});
 app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation) {
     var heatmap, vm = this;
     $scope.selection = {};
