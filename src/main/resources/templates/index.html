@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="myapp">
+<html lang="en" ng-app="myapp">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-    <title>Heatmaps</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Parking Heatmap</title>
+    <link href="css/parking.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?libraries=visualization"></script>
     <script src="js/angular-bootstrap.js"></script>
     <script src="js/ng-map.min.js"></script>
@@ -11,8 +14,17 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.3.0/nouislider.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.3.0/nouislider.min.js"></script>
     <script src="js/wNumb.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css' type='text/css' media='all' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
     <script>
-        var app = angular.module('myapp', ['ngMap', 'ngResource']);
+        var app = angular.module('myapp', ['ngMap', 'ngResource', 'angular-loading-bar', 'ngAnimate']);
         angular.module('myapp').factory('Citation', function ($resource) {
             return $resource('/citation');
         });
@@ -23,62 +35,78 @@
 
 <body>
 <style>
-    div[ng-controller=LayerHeatmapCtrl] {
-        position: relative;
-    }
+
 </style>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+    </div>
+</nav>
+
 <div ng-controller="LayerHeatmapCtrl as vm">
-    <ng-map zoom="13" center="39.290385, -76.612189">
-        <heatmap-layer id="heatmap" data="citationData"></heatmap>
-    </ng-map>
-    <div id="slider-date" class="noUi-target noUi-ltr noUi-horizontal noUi-background"></div>
-    <span id="event-time"></span>
-
-    <div ng-controller="FilterCtrl" style="width: 100%; overflow: hidden;">
-        <div>
-            <button type="button" ng-click="clear()">Clear Filters</button>
+    <div class="jumbotron">
+        <div class="container">
+            <ng-map zoom="13" center="39.290385, -76.612189">
+                <heatmap-layer id="heatmap" data="citationData"></heatmap>
+            </ng-map>
         </div>
-        <div style="width: 70%; float: left;">
-            <div style="width: 50%; float: left;">
-                Filter By Car Manufacturer <br/>
+        <div id="slider-date"></div>
+        <p><span id="event-time"></span></p>
+
+    </div>
+
+    <div class="container" ng-controller="FilterCtrl">
+        <button type="button" ng-click="clear()" class="btn btn-default">Clear Filters</button>
+        <div class="row">
+            <div class="col-md-4">
+                <h2>By Brand</h2>
                <span ng-repeat="car in cars">
-                    <label class="checkbox" for="{{car.id}}">
-                        <input type="checkbox" ng-model="selection.cars[car.id]"
-                               name="carsInput" id="{{car.id}}" ng-click="updateSelection()"/>
-                        {{car.name}}
-                    </label>
-                   <br/>
+                    <p>
+                        <label class="checkbox" for="{{car.id}}">
+                            <input type="checkbox" ng-model="selection.cars[car.id]"
+                                   name="carsInput" id="{{car.id}}" ng-click="updateSelection()"/>
+                            {{car.name}}
+                        </label>
+                    </p>
                 </span>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
             </div>
-
-            <div style="width: 50%; float: right;">
-                Filter By Ticket Type <br/>
+            <div class="col-md-4">
+                <h2>By Ticket Type</h2>
                <span ng-repeat="violation in violations">
-                    <label class="checkbox" for="{{violation.id}}">
-                        <input type="checkbox" ng-model="selection.violations[violation.id]" name="violationsInput"
-                               id="{{violation.id}}" ng-click="updateSelection()"/>
-                        {{violation.name}}
-                    </label>
-                   <br/>
+                   <p>
+                       <label class="checkbox" for="{{violation.id}}">
+                           <input type="checkbox" ng-model="selection.violations[violation.id]" name="violationsInput"
+                                  id="{{violation.id}}" ng-click="updateSelection()"/>
+                           {{violation.name}}
+                       </label>
+                   </p>
                 </span>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
             </div>
-        </div>
-        <div ng-controller="StatsCtrl" style="width: 30%; float: left;"> Citation Stats
-            <div>Violations by Make:
+            <div class="col-md-4" ng-controller="StatsCtrl">
+                <h2>Citation Stats</h2>
+                <h5>Violations by Make</h5>
                 <ul>
                     <li ng-repeat="x in cars">
                         {{ x }}
                     </li>
                 </ul>
-                Citation Winner:
             </div>
         </div>
-    </div>
 
+        <hr>
+
+        <footer>
+            <p>&copy; Corgi Corp</p>
+        </footer>
+    </div>
 </div>
+
 <script src="js/heat-map-controller.js"></script>
 <script src="js/stats-controller.js"></script>
 <script src="js/filter-controller.js"></script>
-
 </body>
 </html>

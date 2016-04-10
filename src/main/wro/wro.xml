@@ -7,5 +7,6 @@
         <js>webjar:angularjs/1.5.2/angular-route.min.js</js>
         <js>webjar:angularjs/1.5.2/angular-cookies.min.js</js>
         <js>webjar:angularjs/1.5.2/angular-resource.min.js</js>
+        <js>webjar:angularjs/1.5.2/angular-animate.min.js</js>
     </group>
 </groups>
