@@ -1,12 +1,11 @@
 app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation) {
     var heatmap, vm = this;
-
     NgMap.getMap().then(function (map) {
 
         vm.map = map;
         heatmap = vm.map.heatmapLayers.heatmap;
         heatmap.set('radius', 20)
-        vm.loadRestEndPoint(1456811999999); //beginning of march
+        vm.loadRestEndPoint(timestamp('03-01-2016'));
     });
 
     vm.toggleHeatmap = function (event) {
@@ -79,12 +78,12 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
         ];
     noUiSlider.create(dateSlider, {
         range: {
-            min: timestamp('2016-03-01T00:00:00'),
+            min: timestamp('03-01-2016'),
             max: timestamp('04-01-2016')
         },
 
         step: 1 * 60 * 60 * 1000,
-        start: [1456811999999],
+        start: [timestamp('03-01-2016')],
 
         format: wNumb({
             decimals: 0

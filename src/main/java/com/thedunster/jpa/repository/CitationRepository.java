@@ -18,6 +18,6 @@ public interface CitationRepository extends CrudRepository<CitationEntity, Long>
 
     @Query("SELECT c FROM CitationEntity c WHERE c.date BETWEEN :startTime AND :endTime")
     List<CitationEntity> findByRange(@Param("startTime") Timestamp startTime,
-                                               @Param("endTime") Timestamp endTime);
+                                     @Param("endTime") Timestamp endTime);
 
 }

@@ -17,6 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ViolationEntity {
     @Id
     @GeneratedValue
+    @Getter
     private Long id;
 
     @Getter

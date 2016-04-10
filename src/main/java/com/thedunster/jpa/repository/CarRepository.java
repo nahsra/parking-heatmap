@@ -1,5 +1,6 @@
 package com.thedunster.jpa.repository;
 
+import com.thedunster.common.CitationCountStat;
 import com.thedunster.jpa.entities.CarEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,5 +22,9 @@ public interface CarRepository extends CrudRepository<CarEntity, Long> {
 
     @Query("SELECT DISTINCT(c.make) FROM CarEntity c")
     List<String> findUniqueMakes();
+
+    @Query("SELECT car.make, COUNT(car.make) AS cnt FROM CitationEntity citation, CarEntity car" +
+            " WHERE citation.car=car.id group by car.make order by cnt DESC")
+    List<Object[]> getCitationCountByMake();
 
 }

@@ -31,17 +31,39 @@
     <ng-map zoom="13" center="39.290385, -76.612189">
         <heatmap-layer id="heatmap" data="citationData"></heatmap>
     </ng-map>
-    <div>Test message</div>
     <div id="slider-date" class="noUi-target noUi-ltr noUi-horizontal noUi-background"></div>
     <span id="event-time"></span>
 
-    <div style="width: 100%; overflow: hidden;">
-        <div style="width: 600px; float: left;"> Left </div>
-        <div style="margin-left: 620px;"> Right </div>
+    <div ng-controller="FilterCtrl" style="width: 100%; overflow: hidden;">
+        <div style="width: 70%; float: left;"> Query Box:
+            <div>
+               <span ng-repeat="car in cars">
+                    <label class="checkbox" for="{{car.id}}">
+                        <input type="checkbox" ng-model="selection.ids[car.id]" name="group" id="{{car.id}}"/>
+                        {{car.name}}
+                    </label>
+                   <br/>
+                </span>
+                <pre ng-bind="selection.ids | json"></pre>
+            </div>
+
+        </div>
+        <div ng-controller="StatsCtrl" style="width: 30%; float: left;"> Citation Stats
+            <div>Violations by Make:
+                <ul>
+                    <li ng-repeat="x in cars">
+                        {{ x }}
+                    </li>
+                </ul>
+                Citation Winner:
+            </div>
+        </div>
     </div>
 
 </div>
 <script src="js/heat-map-controller.js"></script>
+<script src="js/stats-controller.js"></script>
+<script src="js/filter-controller.js"></script>
 
 </body>
 </html>

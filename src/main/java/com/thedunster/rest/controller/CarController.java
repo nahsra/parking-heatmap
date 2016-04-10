@@ -1,5 +1,6 @@
 package com.thedunster.rest.controller;
 
+import com.thedunster.common.CitationCountStat;
 import com.thedunster.jpa.entities.CarEntity;
 import com.thedunster.jpa.repository.CarRepository;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,11 +39,23 @@ public class CarController {
         return carEntities;
     }
 
-    @RequestMapping(value = "/list")
+    @RequestMapping(value = "/manufacturer")
     @ResponseBody
-    public List<String> listMake(){
+    public List<String> listMake() {
         List<String> makeList = carRepository.findUniqueMakes();
         return makeList;
+    }
+
+    @RequestMapping("/manufacturer/count")
+    @ResponseBody
+    public List<CitationCountStat> listCitationCountByMake() {
+        List<CitationCountStat> citationCountStats = new ArrayList<>();
+        List<Object[]> resultList = carRepository.getCitationCountByMake();
+        for(Object[] result : resultList) {
+            CitationCountStat citationCountStat = new CitationCountStat(result[1].toString(), result[0].toString());
+            citationCountStats.add(citationCountStat);
+        }
+        return citationCountStats;
     }
 
 }
