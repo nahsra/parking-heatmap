@@ -35,18 +35,30 @@
     <span id="event-time"></span>
 
     <div ng-controller="FilterCtrl" style="width: 100%; overflow: hidden;">
-        <div style="width: 70%; float: left;"> Query Box:
-            <div>
+        <div style="width: 70%; float: left;">
+            <div style="width: 50%; float: left;">
+                Filter By Car Manufacturer <br/>
                <span ng-repeat="car in cars">
                     <label class="checkbox" for="{{car.id}}">
-                        <input type="checkbox" ng-model="selection.ids[car.id]" name="group" id="{{car.id}}"/>
+                        <input type="checkbox" ng-model="selection.cars[car.id]"
+                               name="carsInput" id="{{car.id}}" ng-click="updateSelection($event, car.id)"/>
                         {{car.name}}
                     </label>
                    <br/>
                 </span>
-                <pre ng-bind="selection.ids | json"></pre>
             </div>
 
+            <div style="width: 50%; float: right;">
+                Filter By Ticket Type <br/>
+               <span ng-repeat="violation in violations">
+                    <label class="checkbox" for="{{violation.id}}">
+                        <input type="checkbox" ng-model="selection.violations[violation.id]" name="violationsInput"
+                               id="{{violation.id}}" ng-click="updateSelection($event, violation.id)"/>
+                        {{violation.name}}
+                    </label>
+                   <br/>
+                </span>
+            </div>
         </div>
         <div ng-controller="StatsCtrl" style="width: 30%; float: left;"> Citation Stats
             <div>Violations by Make:

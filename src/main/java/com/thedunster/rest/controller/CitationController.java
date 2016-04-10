@@ -27,8 +27,8 @@ public class CitationController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public List<CitationEntity> index(@RequestParam(value = "timestamp", required = false) String timestampParameter,
-                                      @RequestParam(value = "make", required = false) String make,
-                                      @RequestParam(value = "ticket", required = false) String ticketType) {
+                                      @RequestParam(value = "make", required = false) List<String> make,
+                                      @RequestParam(value = "ticket", required = false) List<String> ticketType) {
         final String method = "index";
         log.info("{}: Get Request with timestamp: {}, make: {}, ticketType: {}", method,
                 timestampParameter, make, ticketType);
@@ -68,15 +68,18 @@ public class CitationController {
         return timestamp;
     }
 
-    private void filterOnTicketType(@RequestParam(value = "ticket", required = false) String ticketType, List<CitationEntity> citationEntities) {
-        if (ticketType != null) {
-            citationEntities.removeIf(p -> !p.getViolation().getId().toString().equals(ticketType));
+    private void filterOnTicketType(@RequestParam(value = "ticket", required = false) List<String> ticketTypes, List<CitationEntity> citationEntities) {
+        if (ticketTypes != null) {
+            citationEntities.removeIf(p ->
+                    !ticketTypes.contains(p.getViolation().getId().toString()));
         }
     }
 
-    private void filterOnMake(@RequestParam(value = "make", required = false) String make, List<CitationEntity> citationEntities) {
-        if (make != null) {
-            citationEntities.removeIf(p -> !p.getCar().getMake().equalsIgnoreCase(make));
+    private void filterOnMake(@RequestParam(value = "make", required = false) List<String> makes, List<CitationEntity> citationEntities) {
+        if (makes != null) {
+            citationEntities.removeIf(p ->
+                    !makes.contains(p.getCar().getMake())
+            );
         }
     }
 

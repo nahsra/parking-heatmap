@@ -1,5 +1,6 @@
 app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation) {
     var heatmap, vm = this;
+    $scope.selection = {};
     NgMap.getMap().then(function (map) {
 
         vm.map = map;
@@ -56,6 +57,12 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
             console.log("done loading")
         });
     }
+
+    $scope.updateSelection = function($event, id) {
+        var checkbox = $event.target;
+        console.log("Clicked: " + id);
+        console.log($scope.selection)
+    };
 
 
 
