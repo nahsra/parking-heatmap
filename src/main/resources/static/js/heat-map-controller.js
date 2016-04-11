@@ -75,6 +75,11 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
         vm.loadRestEndPoint(time);
     };
 
+    $scope.loadAllPoints = function () {
+        vm.loadRestEndPoint(null);
+        document.getElementById('event-time').innerHTML = "All data points";
+    };
+
     function jsonToArray(json) {
         var array;
         if (json) {
@@ -125,7 +130,7 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
 
     dateSlider.noUiSlider.on('update', function (values, handle) {
         var date = new Date(+values[handle]);
-        dateValues[handle].innerHTML = formatDate(new Date(+values[handle]));
+        dateValues[handle].innerHTML = formatDate(new Date(+values[handle])) + "+ 1HR";
     });
 
     dateSlider.noUiSlider.on('change', function (values, handle) {
