@@ -26,7 +26,7 @@ Service Providers:
 
 <a name="mysql">1</a>: The initial DB host is Decker, but if there are concerns about network latency, it can be switched over to ClearDB. 
 
-The inital implementation will be limited to just March 2016 as the geocoding apis are limited by calls. This could easily be circumvented by enabling the batch process to import 2,500 records each day. 
+The inital implementation will be limited to just March 2016 as the Google Geocoding API calls are limited. This could easily be circumvented by enabling the batch process to import 2,500 records each day. 
 
 ## Deployment
 Instructions on deploying locally. 
