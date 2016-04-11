@@ -83,11 +83,18 @@ app.controller('LayerHeatmapCtrl', function (NgMap, $resource, $scope, Citation)
     function jsonToArray(json) {
         var array;
         if (json) {
-            array = Object.keys(json).map(function (k) {
+            //remove json
+            Object.keys(json).map(function (k) {
                 if (json[k] == true) {
                     return k;
                 } else {
                     delete json[k];
+                }
+            });
+            //convert to array
+            array = Object.keys(json).map(function (k) {
+                if (json[k] == true) {
+                    return k;
                 }
             });
         }
