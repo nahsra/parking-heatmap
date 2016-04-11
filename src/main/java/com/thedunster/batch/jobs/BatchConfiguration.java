@@ -42,9 +42,16 @@ public class BatchConfiguration {
     @Autowired
     public EntityManagerFactory entityManagerFactory;
 
+    /**
+     * Default to 0 if system property is not given.
+     */
     @Value("${soda.query.limit:0}")
     public Integer queryLimit;
 
+    /**
+     * Batch reader. Reads from SODA api to get data.
+     * @return
+     */
     @Bean
     public ListItemReader<SodaCitation> reader() {
         final String method = "reader()";
@@ -63,11 +70,18 @@ public class BatchConfiguration {
             log.info("{}: Pop gave me ${}", method, sodaCitationJsonsObjectList.size());
             reader = new ListItemReader<>(sodaCitationJsonsObjectList);
         } else {
-            log.error("{}: Pop told me nothing.", method);
+            log.info("{}: Pop told me nothing.", method);
         }
         return reader;
     }
 
+    /**
+     * Performs call to SODA.
+     * @param method
+     * @param consumer
+     * @param query
+     * @return
+     */
     private List<SodaCitation> sodaCall(String method, Soda2Consumer consumer, SoqlQuery query) {
         List<SodaCitation> sodaCitationJsonsObjectList = null;
         try {
@@ -121,4 +135,6 @@ public class BatchConfiguration {
                 .writer(writer())
                 .build();
     }
+
+
 }

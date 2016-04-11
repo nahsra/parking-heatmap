@@ -19,11 +19,22 @@ import java.util.List;
 public class CitationController {
     private static final Logger log = LoggerFactory.getLogger(CitationController.class);
 
+    /**
+     * Off set a timestamp by 1 HR.
+     */
     private final int OFFSET_TO_NEXT_HOUR = 59 * 60 * 1000 + 59 * 1000 + 999;
 
     @Autowired
     CitationRepository citationRepository;
 
+    /**
+     * Gets citations based on parameters.
+     *
+     * @param timestampParameter - time to search on
+     * @param make               - filter by makes
+     * @param ticketType         - filter by ticket types.
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public List<CitationEntity> index(@RequestParam(value = "timestamp", required = false) String timestampParameter,
@@ -43,6 +54,12 @@ public class CitationController {
         return citationEntities;
     }
 
+    /**
+     * Gets the citation based on time stamp
+     *
+     * @param timestamp
+     * @return
+     */
     private List<CitationEntity> getCitationEntities(Long timestamp) {
         final String method = "getCitationEntities";
         List<CitationEntity> citationEntities;
@@ -57,6 +74,12 @@ public class CitationController {
         return citationEntities;
     }
 
+    /**
+     * Converts the string timestamp into a Long. Needs to account for null time stamp.
+     *
+     * @param timestampParameter
+     * @return
+     */
     private Long parseTimestamp(@RequestParam(value = "timestamp", required = false) String timestampParameter) {
         final String method = "parseTimestamp";
         Long timestamp = null;
@@ -68,6 +91,12 @@ public class CitationController {
         return timestamp;
     }
 
+    /**
+     * Filter results on ticket type.
+     *
+     * @param ticketTypes
+     * @param citationEntities
+     */
     private void filterOnTicketType(@RequestParam(value = "ticket", required = false) List<String> ticketTypes, List<CitationEntity> citationEntities) {
         if (ticketTypes != null) {
             citationEntities.removeIf(p ->
@@ -75,6 +104,12 @@ public class CitationController {
         }
     }
 
+    /**
+     * Filter results on make.
+     *
+     * @param makes
+     * @param citationEntities
+     */
     private void filterOnMake(@RequestParam(value = "make", required = false) List<String> makes, List<CitationEntity> citationEntities) {
         if (makes != null) {
             citationEntities.removeIf(p ->

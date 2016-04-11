@@ -23,7 +23,12 @@ public class CarController {
     @Autowired
     CarRepository carRepository;
 
-
+    /**
+     * Index method. Obtains all cars if param make is null. Otherwise searches on make.
+     *
+     * @param make
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public List<CarEntity> index(@RequestParam(value = "make", required = false) String make) {
@@ -39,6 +44,11 @@ public class CarController {
         return carEntities;
     }
 
+    /**
+     * Returns a list of unique car makes.
+     *
+     * @return
+     */
     @RequestMapping(value = "/manufacturer")
     @ResponseBody
     public List<String> listMake() {
@@ -46,6 +56,11 @@ public class CarController {
         return makeList;
     }
 
+    /**
+     * Returns a list of CitationCountStat of car makes and their count of violations.
+     *
+     * @return
+     */
     @RequestMapping("/manufacturer/count")
     @ResponseBody
     public List<CitationCountStat> listCitationCountByMake() {
