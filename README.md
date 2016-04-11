@@ -24,7 +24,7 @@ Service Providers:
 * Application Hosting - [Pivotal Cloud Foundry](http://pivotal.io/platform)
 * Javascript libary hosting - [CDNJS](https://cdnjs.com/)
 
-<a name="mysql">1</a>: The initial DB host is Decker but with concerns about network latency, I may switch over to ClearDB. 
+<a name="mysql">1</a>: The initial DB host is Decker but if there are concerns about network latency it can be switch over to ClearDB. 
 
 The inital implementation will be limited to just March 2016 as the geocoding apis are limited by calls. This could easily be circumvented by enabling the batch process to import 2,500 records each day. 
 
