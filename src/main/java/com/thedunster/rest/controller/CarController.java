@@ -49,10 +49,12 @@ public class CarController {
     @RequestMapping("/manufacturer/count")
     @ResponseBody
     public List<CitationCountStat> listCitationCountByMake() {
+        final String method = "listCitationCountByMake";
         List<CitationCountStat> citationCountStats = new ArrayList<>();
         List<Object[]> resultList = carRepository.getCitationCountByMake();
-        for(Object[] result : resultList) {
-            CitationCountStat citationCountStat = new CitationCountStat(result[1].toString(), result[0].toString());
+        for (Object[] result : resultList) {
+            CitationCountStat citationCountStat = new CitationCountStat(String.valueOf(result[1]),
+                    String.valueOf(result[0]));
             citationCountStats.add(citationCountStat);
         }
         return citationCountStats;

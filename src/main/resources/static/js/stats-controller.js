@@ -8,7 +8,7 @@ app.controller('StatsCtrl', function (NgMap, $resource, $scope, StatsResource) {
             var result = results[i];
             var make = result.make;
             var count = result.count;
-            cars.push(make + "- :" + count);
+            cars.push(make + ":" + count);
         }
         $scope.cars = cars;
     });

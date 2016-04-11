@@ -149,7 +149,11 @@ public class SodaCitationProcessor implements ItemProcessor<SodaCitation, Citati
      * @return
      */
     private CarEntity getCarEntity(SodaCitation sodaCitation) {
-        List<CarEntity> carEntities = carRepository.findByTagStateAndMake(sodaCitation.getTag(), sodaCitation.getState(), sodaCitation.getMake());
+        String make = sodaCitation.getMake();
+        if (make == null) {
+            make = "OTH";
+        }
+        List<CarEntity> carEntities = carRepository.findByTagStateAndMake(sodaCitation.getTag(), sodaCitation.getState(), make);
         CarEntity carEntity;
         if (carEntities.size() != 1) {
             carEntity = new CarEntity.Builder()

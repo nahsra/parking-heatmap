@@ -27,7 +27,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     public void afterJob(JobExecution jobExecution) {
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             List<CitationEntity> results = (List<CitationEntity>) citationRepository.findAll();
-            log.info("Completed batch job for {} items: {}", results.size(), results);
+            log.info("Completed batch job for {} items.", results.size());
 
         }
     }
