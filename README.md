@@ -33,7 +33,7 @@ Instructions on deploying locally.
 ### Locally
 To run this application locally there are a few prerequisites you must have:
 * [Maven](https://maven.apache.org/) installed.
-* Google Maps API key obtainable [here](https://console.developers.google.com/apis/credentials).
+* Google Maps API key obtainable [here](https://console.developers.google.com/apis/credentials). Please enable the "Google Maps Geocoding API" from the Google Developer Console.
 * (Optional) A mysql database running with proper permission and connection details 
 
 1. Rename application.properties.example to application.properties
