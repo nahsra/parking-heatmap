@@ -39,7 +39,8 @@ To run this application locally there are a few prerequisites you must have:
 1. Rename application.properties.example to application.properties
 2. Replace "YOUR_API_KEY" with the Google Maps API Key obtained above. 
 3. Uncomment the appropriate database section that you would prefer to use. H2 or MySQL. 
-3. Run ```mvn clean spring-boot:run -Dsoda.query.limit=XXXX```. 'XXXX' is the amount of data you would like to import into your instance. This property will limit the amount of data that is to be returned from the SODA API query. 
+  * On the first start up of a MySQL instance you will want the schema to be created. You can create the schema using the following: ```spring.jpa.hibernate.ddl-auto=create```. After, you may continue to use ```validate``` so you limit the number of calls to Google's Geo service. 
+4. Run ```mvn clean spring-boot:run -Dsoda.query.limit=XXXX```. 'XXXX' is the amount of data you would like to import into your instance. This property will limit the amount of data that is to be returned from the SODA API query. ```-Dsoda.query.limit=XXXX``` is optional. Defaults to 0 if not provided. 
 
 
 ## Bugs 
